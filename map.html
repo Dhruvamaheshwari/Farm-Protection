@@ -40,31 +40,26 @@
 </script>
 </head>
 
-<body class="bg-green-50 font-oswald">
+<body class="bg-green-100 font-oswald">
   <!-- Navbar -->
-  <nav class="flex fixed top-0 justify-between items-center bg-green-50 shadow-md w-full  px-6 py-3">
+  <nav class="flex fixed top-0 justify-between items-center shadow-md bg-green-50 w-full  px-6 py-4">
     <div class="flex items-center space-x-3">
       <img src="./image/a87020df-7af7-40d8-aba1-61c7819f1e46.jpg" alt="CropGuard Logo" class="h-10 w-10 rounded-full border-2 border-green-400">
       <h1 class="text-xl font-bold text-green-800 font-sans">Crop Protection</h1>
     </div>
     <div class="hidden md:flex items-center space-x-6">
-      <a href="main.html" class="text-gray-700 hover:text-green-600 transition-colors flex items-center">
-         Home
-      </a>
-      <a href="weather.html" class="text-gray-700 hover:text-green-600 transition-colors flex items-center">
-         Weather
-      </a>
-      <a href="./leader.html" class="text-gray-700 hover:text-green-600 transition-colors flex items-center">
-         Experts
-      </a>
-      <a href="contact.html" class="text-gray-700 hover:text-green-600 transition-colors flex items-center">
-         Contact
-      </a>
+      <a href="main.html" class="text-black text-sm hover:text-green-500">Home</a>
+            <a href="map.html" class="text-black text-sm hover:text-green-500">Map</a>
+            <a href="leader.html" class="text-black text-sm hover:text-green-500">Experts</a>
+            <a href="weather.html" class="text-black text-sm hover:text-green-500">Weather</a>
+            <a href="./contact.html" class="text-black text-sm hover:text-green-500">Contact</a>
+            <!-- for translate -->
+            <div  id="google_translate_element" class="t"></div>
     </div>
   </nav>
 
   <!-- Map Section -->
-  <section class="mt-16 p-6 max-w-7xl mx-auto">
+  <section class="mt-16 p-6 max-w-7xl mx-auto mt-20">
     <div class="mb-4 text-center">
       <h2 class="text-3xl font-bold text-green-800 mb-2">Wildlife Protection Map</h2>
       <p class="text-gray-600 max-w-2xl mx-auto">Track animal movements and protect your crops with real-time wildlife sighting data across India</p>
@@ -91,13 +86,13 @@
         </div>
         
         <!-- Quick Stats -->
-        <div class="grid grid-cols-2 gap-4">
+        <div class="mt-8 grid grid-cols-2 gap-4">
             <div class="animal-stat p-4 rounded-lg text-center">
                 <div class="text-purple-600 mb-2">
                   <i class="fas fa-deer text-2xl"></i>
                 </div>
                 <h4 class="font-bold text-gray-700">Nilgai Reports</h4>
-                <p class="text-2xl font-bold text-purple-700">215</p>
+                <p class="text-2xl font-bold text-purple-700">15</p>
                 <p class="text-xs text-gray-500">This month</p>
               </div>
           <div class="animal-stat p-4 rounded-lg text-center">
@@ -105,7 +100,7 @@
               <i class="fas fa-elephant text-2xl"></i>
             </div>
             <h4 class="font-bold text-gray-700">Elephant Herds</h4>
-            <p class="text-2xl font-bold text-blue-700">87</p>
+            <p class="text-2xl font-bold text-blue-700">7</p>
             <p class="text-xs text-gray-500">This month</p>
           </div>
         </div>
@@ -155,7 +150,7 @@
     });
 
     // Custom icons
-    const tigerIcon = L.icon({
+    const wildboar = L.icon({
       iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png',
       shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png',
       iconSize: [25, 41],
@@ -192,8 +187,8 @@
     });
 
     // Create animal layers with custom icons and detailed popups
-    const tigerLayer = L.layerGroup([
-      L.marker([22.57, 88.36], {icon: tigerIcon}).bindPopup(`
+    const wildBoar = L.layerGroup([
+      L.marker([22.57, 88.36], {icon: wildboar}).bindPopup(`
         <div class="font-sans">
           <h4 class="font-bold text-red-600 mb-1">Tiger Sighting</h4>
           <p class="text-sm"><i class="fas fa-map-marker-alt mr-1"></i> Sundarbans, West Bengal</p>
@@ -201,14 +196,14 @@
           <p class="text-sm"><i class="fas fa-exclamation-triangle mr-1"></i> High activity zone</p>
         </div>
       `),
-      L.marker([21.15, 79.09], {icon: tigerIcon}).bindPopup(`
+      L.marker([21.15, 79.09], {icon: wildboar}).bindPopup(`
         <div class="font-sans">
           <h4 class="font-bold text-red-600 mb-1">Tiger Sighting</h4>
           <p class="text-sm"><i class="fas fa-map-marker-alt mr-1"></i> Tadoba Reserve, Maharashtra</p>
           <p class="text-sm"><i class="fas fa-calendar-alt mr-1"></i> Reported: 10 Apr 2023</p>
         </div>
       `),
-      L.marker([26.91, 75.78], {icon: tigerIcon}).bindPopup(`
+      L.marker([26.91, 75.78], {icon: wildboar}).bindPopup(`
         <div class="font-sans">
           <h4 class="font-bold text-red-600 mb-1">Tiger Sighting</h4>
           <p class="text-sm"><i class="fas fa-map-marker-alt mr-1"></i> Ranthambore, Rajasthan</p>
@@ -291,7 +286,7 @@
       "Base Map": baseLayer
     }, {
       "Heatmap (High Activity Areas)": heatLayer,
-      "Tiger Sightings": tigerLayer,
+      "Wild Boars Sightings": wildBoar,
       "Elephant Herds": elephantLayer,
       "Leopard Sightings": leopardLayer,
       "Nilgai Sightings": nilgaiLayer
@@ -305,7 +300,41 @@
 
     // Default to showing heatmap
     heatLayer.addTo(map);
+
+
+    function googleTranslateElementInit() {
+    new google.translate.TranslateElement({
+        pageLanguage: 'en', // Page language
+        includedLanguages: 'en,hi,te,ta,ml,pa,gu,ur,bn,mar,or,kn,mr,ma,ne,as,san,si,sd,sa,th,tl,el,ko,zh-CN', // Indian languages and others
+        layout: google.translate.TranslateElement.SIMPLE
+    }, 'google_translate_element');
+
+
+    setTimeout(() => {
+      const style = document.createElement('style');
+      style.innerHTML = `
+
+        .goog-te-gadget span {
+          display: none !important;
+        }
+
+         .goog-te-combo {
+          background-color: #f9fafb !important; /* Tailwind: bg-gray-50 */
+          border: 1px solid #d1d5db !important;  /* Tailwind: border-gray-300 */
+          padding: 0.2rem 0.7rem !important;     /* Tailwind: p-2 px-3 */
+          border-radius: 0.5rem !important;       /* Tailwind: rounded-lg */
+          font-size: .90rem !important;             /* Tailwind: text-base */
+          color: #111827 !important;              /* Tailwind: text-gray-900 */
+        }
+      `;
+
+    document.head.appendChild(style);
+    });
+    }
   </script>
+
+<script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
 </body>
 
 </html>

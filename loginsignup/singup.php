@@ -7,11 +7,10 @@ $password = "";
 $email = "";
 $dbname = "crop_protection";
 
+
+try{
 // Step 1: Connect to MySQL Server
 $conn = new mysqli($servername, $username, $password);
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
 
 // Step 2: Create the Database if not exists
 $sqlCreateDB = "CREATE DATABASE IF NOT EXISTS $dbname";
@@ -24,13 +23,11 @@ $conn->select_db($dbname);
 $sqlCreateTable = "CREATE TABLE IF NOT EXISTS SignUP (
     fname VARCHAR(50) NOT NULL,
     lname VARCHAR(50) NOT NULL,
-    password VARCHAR(50) NOT NULL,
+    password VARCHAR(255) NOT NULL,
     email VARCHAR(50) NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 )";
 $conn->query($sqlCreateTable);
-
-
 
 // Step 5: Prepare and Insert the Data using POST
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -39,6 +36,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $pass = $_POST['password'];
     $email = $_POST['email'];
 
+    // for password secure using hash funciton;
+    $securePass = password_hash($pass,PASSWORD_DEFAULT);
+
+
     $st = $conn->prepare("SELECT * FROM SignUP WHERE email = ? ");
     $st->bind_param("s", $email);
     $st->execute();
@@ -46,20 +47,31 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $user = $result->fetch_assoc();
 
-    if ($user['email'] === $email) {
-        echo "<script>alert('email is already login');window.location.href = 'index.php';</script>";
-        exit();
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        echo "<script>alert('Enter the email correctly');window.location.href = 'index.php';</script>";
     } else {
-        $stmt = $conn->prepare("INSERT INTO SignUP (fname , lname,password,email) VALUES (?, ?,?,?)");
-        $stmt->bind_param("ssss", $fname, $lname, $pass, $email);
 
-        if ($stmt->execute()) {
-            header("Location: ../main.html");
+        if ($user['email'] === $email) {
+            echo "<script>alert('email is already login');window.location.href = 'index.php';</script>";
+            exit();
         } else {
-            echo "Error: " . $stmt->error;
+            $stmt = $conn->prepare("INSERT INTO SignUP (fname , lname,password,email) VALUES (?, ?,?,?)");
+            $stmt->bind_param("ssss", $fname, $lname, $securePass, $email);
+            if ($stmt->execute()) {
+                header("Location: ../main.html");
+            } else {
+                echo "Error: " . $stmt->error;
+            }
+            $stmt->close();
         }
-
-        $stmt->close();
     }
 }
 $conn->close();
+}
+
+catch(mysqli_sql_exception)
+{
+    echo "connection is failed try later for singup";
+}
+
+?>

@@ -30,24 +30,19 @@
 <body class="bg-gray-100 text-gray-900 min-h-screen font-oswald" style="background-image: url('https://images.unsplash.com/photo-1506744038136-46273834b3fb'); background-size: cover; background-attachment: fixed;">
 
   <!-- Header -->
-  <nav class="flex fixed top-0 justify-between items-center bg-green-50 shadow-md w-full px-6 py-3 z-50">
+  <nav class="flex fixed top-0 justify-between items-center bg-green-50 shadow-md w-full px-6 py-4 z-50">
     <div class="flex items-center space-x-3">
       <img src="./image/a87020df-7af7-40d8-aba1-61c7819f1e46.jpg" alt="CropGuard Logo" class="h-10 w-10 rounded-full border-2 border-green-400">
       <h1 class="text-xl font-bold text-green-800 font-sans">Crop Protection</h1>
     </div>
     <div class="hidden md:flex items-center space-x-6">
-      <a href="main.html" class="text-gray-700 hover:text-green-600 transition-colors flex items-center">
-         Home
-      </a>
-      <a href="map.html" class="text-gray-700 hover:text-green-600 transition-colors flex items-center">
-         Map
-      </a>
-      <a href="./leader.html" class="text-gray-700 hover:text-green-600 transition-colors flex items-center">
-         Experts
-      </a>
-      <a href="contact.html" class="text-gray-700 hover:text-green-600 transition-colors flex items-center">
-         Contact
-      </a>
+      <a href="main.html" class="text-black text-sm hover:text-green-500">Home</a>
+            <a href="map.html" class="text-black text-sm hover:text-green-500">Map</a>
+            <a href="leader.html" class="text-black text-sm hover:text-green-500">Experts</a>
+            <a href="weather.html" class="text-black text-sm hover:text-green-500">Weather</a>
+            <a href="./contact.html" class="text-black text-sm hover:text-green-500">Contact</a>
+                                <!-- for translate -->
+                                <div  id="google_translate_element" class="t"></div>
     </div>
   </nav>
 
@@ -257,6 +252,40 @@
     window.onload = function() {
       getWeather(28.6139, 77.2090);
     };
+
+    function googleTranslateElementInit() {
+    new google.translate.TranslateElement({
+        pageLanguage: 'en', // Page language
+        includedLanguages: 'en,hi,te,ta,ml,pa,gu,ur,bn,mar,or,kn,mr,ma,ne,as,san,si,sd,sa,th,tl,el,ko,zh-CN', // Indian languages and others
+        layout: google.translate.TranslateElement.SIMPLE
+    }, 'google_translate_element');
+
+
+    setTimeout(() => {
+      const style = document.createElement('style');
+      style.innerHTML = `
+
+        .goog-te-gadget span {
+          display: none !important;
+        }
+
+         .goog-te-combo {
+          background-color: #f9fafb !important; /* Tailwind: bg-gray-50 */
+          border: 1px solid #d1d5db !important;  /* Tailwind: border-gray-300 */
+          padding: 0.2rem 0.7rem !important;     /* Tailwind: p-2 px-3 */
+          border-radius: 0.5rem !important;       /* Tailwind: rounded-lg */
+          font-size: .90rem !important;             /* Tailwind: text-base */
+          color: #111827 !important;              /* Tailwind: text-gray-900 */
+        }
+      `;
+
+    document.head.appendChild(style);
+    });
+    }
+
   </script>
+
+<script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
 </body>
 </html>
