@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crop Advisory | Kisan Seva</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <style>
+        .fade-in {
+            animation: fadeIn 0.5s ease-in;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-green-50 via-yellow-50 to-green-100 min-h-screen">
+    
+    <!-- Navigation -->
+    <header class="flex fixed top-0 justify-between items-center bg-green-50 py-2 shadow-lg w-full z-50">
+        <div class="m-4 flex gap-4">
+            <img src="./image/a87020df-7af7-40d8-aba1-61c7819f1e46.jpg" height="40px" width="40px" class="rounded-full">
+            <h1 class="text-2xl font-semibold font-serif text-black my-auto">Crop Protection</h1>
+        </div>
+            <nav class="hidden md:flex items-center space-x-8 ">
+                <a href="./main.html" class="nav-link text-gray-700 hover:text-primary t">Home</a>
+
+                <div class="relative group">
+                    <button class="nav-link text-gray-700 hover:text-primary flex items-center t">
+                        Quick Links <i class="ml-1 fas fa-chevron-down text-xs"></i>
+                    </button>
+                    <div
+                        class="t absolute left-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform group-hover:translate-y-0 -translate-y-2">
+                        <a href="weather.html"
+                            class="t block px-4 py-2 text-gray-700 hover:bg-gray-100 hover:text-primary ">Weather
+                            Update</a>
+                        <a href="map.html"
+                            class="t block px-4 py-2 text-gray-700 hover:bg-gray-100 hover:text-primary ">Map</a>
+                        <a href="leader.html"
+                            class="t block px-4 py-2 text-gray-700 hover:bg-gray-100 hover:text-primary ">Experts</a>
+                    </div>
+                </div>
+
+                <!-- <a href="#sightings" class="nav-link text-gray-700 hover:text-primary t">Animal Sighting</a> -->
+                <a href="contact.html" class="nav-link text-gray-700 hover:text-primary t">Contact</a>
+
+                    <!-- for translate -->
+                    <div  id="google_translate_element" class="t"></div>
+
+
+
+                </div>
+            </nav>
+    </header>
+
+    <!-- Main Content -->
+    <div class="container mx-auto px-6 pt-24 pb-12 max-w-4xl">
+        <div class="bg-white rounded-2xl shadow-2xl p-8 md:p-12">
+            <!-- Header -->
+            <div class="text-center mb-8">
+                <h1 class="text-4xl md:text-5xl font-extrabold text-green-800 mb-4">
+                    🌾 Crop Advisory System 🌾
+                </h1>
+                <p class="text-lg text-gray-600">
+                    Get expert crop recommendations based on your soil type and season
+                </p>
+            </div>
+
+            <!-- Form -->
+            <form id="advisoryForm" class="space-y-6 mb-8">
+                <div>
+                    <label for="soil" class="block text-sm font-semibold text-gray-700 mb-2">
+                        <i class="fas fa-seedling mr-2 text-green-600"></i>Soil Type
+                    </label>
+                    <select id="soil" name="soil" required
+                        class="w-full px-4 py-3 border-2 border-green-200 rounded-lg focus:border-green-500 focus:ring-2 focus:ring-green-300 outline-none transition">
+                        <option value="">Select Soil Type</option>
+                        <option value="Alluvial">Alluvial</option>
+                        <option value="Black">Black</option>
+                        <option value="Red">Red</option>
+                        <option value="Clay">Clay</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label for="season" class="block text-sm font-semibold text-gray-700 mb-2">
+                        <i class="fas fa-calendar-alt mr-2 text-green-600"></i>Season
+                    </label>
+                    <select id="season" name="season" required
+                        class="w-full px-4 py-3 border-2 border-green-200 rounded-lg focus:border-green-500 focus:ring-2 focus:ring-green-300 outline-none transition">
+                        <option value="">Select Season</option>
+                        <option value="Kharif">Kharif (Monsoon: June-October)</option>
+                        <option value="Rabi">Rabi (Winter: November-March)</option>
+                        <option value="Zaid">Zaid (Summer: April-June)</option>
+                    </select>
+                </div>
+
+                <button type="submit" 
+                    class="w-full bg-gradient-to-r from-green-600 to-green-700 text-white py-4 px-6 rounded-lg font-bold text-lg shadow-lg hover:from-green-700 hover:to-green-800 transform hover:scale-105 transition duration-200">
+                    <i class="fas fa-search mr-2"></i>Get Recommendation
+                </button>
+            </form>
+
+            <!-- Result Section -->
+            <div id="resultSection" class="hidden fade-in">
+                <div class="bg-gradient-to-r from-green-50 to-yellow-50 border-l-4 border-green-500 rounded-lg p-6 shadow-md">
+                    <h3 class="text-xl font-bold text-green-800 mb-3">
+                        <i class="fas fa-lightbulb mr-2"></i>Recommendation
+                    </h3>
+                    <div id="resultContent" class="text-gray-700 text-lg"></div>
+                    <div id="resultDetails" class="mt-4 text-sm text-gray-600"></div>
+                </div>
+            </div>
+
+            <!-- Error Section -->
+            <div id="errorSection" class="hidden fade-in">
+                <div class="bg-red-50 border-l-4 border-red-500 rounded-lg p-6 shadow-md">
+                    <h3 class="text-xl font-bold text-red-800 mb-2">
+                        <i class="fas fa-exclamation-triangle mr-2"></i>Error
+                    </h3>
+                    <div id="errorContent" class="text-red-700"></div>
+                </div>
+            </div>
+
+            <!-- Loading Indicator -->
+            <div id="loadingSection" class="hidden text-center py-8">
+                <div class="inline-block animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-green-600"></div>
+                <p class="mt-4 text-gray-600">Getting recommendation...</p>
+            </div>
+        </div>
+
+        <!-- Info Section -->
+        <div class="mt-8 bg-blue-50 border border-blue-200 rounded-lg p-6">
+            <h3 class="text-lg font-bold text-blue-800 mb-2">
+                <i class="fas fa-info-circle mr-2"></i>About Crop Advisory
+            </h3>
+            <p class="text-blue-700 text-sm">
+                Our crop advisory system uses expert knowledge to recommend the best crops based on your soil type and the current season. 
+                This helps you maximize your yield and make informed farming decisions.
+            </p>
+        </div>
+    </div>
+
+    <script>
+        const form = document.getElementById('advisoryForm');
+        const resultSection = document.getElementById('resultSection');
+        const errorSection = document.getElementById('errorSection');
+        const loadingSection = document.getElementById('loadingSection');
+        const resultContent = document.getElementById('resultContent');
+        const errorContent = document.getElementById('errorContent');
+        const resultDetails = document.getElementById('resultDetails');
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            // Hide previous results
+            resultSection.classList.add('hidden');
+            errorSection.classList.add('hidden');
+            loadingSection.classList.remove('hidden');
+
+            const soil = document.getElementById('soil').value;
+            const season = document.getElementById('season').value;
+
+            try {
+                // Try PHP wrapper first (recommended)
+                let response = await fetch(`./backend/crop_advisory.php?soil=${encodeURIComponent(soil)}&season=${encodeURIComponent(season)}`);
+                
+                // If PHP wrapper fails, try direct Java service
+                if (!response.ok) {
+                    console.log('PHP wrapper failed, trying direct Java service...');
+                    response = await fetch(`http://localhost:8080/crop-advisory/api?soil=${encodeURIComponent(soil)}&season=${encodeURIComponent(season)}`);
+                }
+
+                const data = await response.json();
+
+                loadingSection.classList.add('hidden');
+
+                if (data.success && data.recommendation) {
+                    resultContent.textContent = data.recommendation;
+                    resultDetails.innerHTML = `
+                        <strong>Soil Type:</strong> ${data.soil} | 
+                        <strong>Season:</strong> ${data.season}
+                    `;
+                    resultSection.classList.remove('hidden');
+                } else {
+                    errorContent.textContent = data.error || 'Unable to get recommendation. Please try again.';
+                    errorSection.classList.remove('hidden');
+                }
+            } catch (error) {
+                loadingSection.classList.add('hidden');
+                errorContent.innerHTML = `
+                    <p>Unable to connect to the crop advisory service.</p>
+                    <p class="mt-2 text-sm">Please ensure:</p>
+                    <ul class="mt-2 text-sm list-disc list-inside">
+                        <li>The Java service is running on port 8080</li>
+                        <li>You can start it by running: <code class="bg-gray-200 px-2 py-1 rounded">cd java_module && mvn tomcat7:run</code></li>
+                    </ul>
+                `;
+                errorSection.classList.remove('hidden');
+                console.error('Error:', error);
+            }
+        });
+    </script>
+</body>
+</html>
+
